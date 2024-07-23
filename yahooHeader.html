@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    
+</head>
+<body>
+
+    <style>
+        .slider {
+            width: 704px;
+            height: 211px;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .slides {
+            width: 9999px; /* Flex 대신 */
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+            position: relative;
+        }
+        .slide {
+            width: 704px;
+            height: 211px;
+            float: left;
+        }
+        .slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+        }
+        .nav button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .dots {
+            text-align: center;
+            padding-top: 10px;
+        }
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: gray;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: red;
+        }
+    </style>
+
+
+    <div class="slider">
+        <div class="slides" id="slides">
+            <div class="slide">
+                <img src="https://shopping.c.yimg.jp/lib/hankoandstamp/top_panel_03v2.jpg" alt="img 1">
+            </div>
+            <div class="slide">
+                <img src="https://shopping.c.yimg.jp/lib/hankoandstamp/top_panel_02v2.jpg" alt="img 2">
+            </div>
+            <div class="slide">
+                <img src="https://shopping.c.yimg.jp/lib/hankoandstamp/top_panel_01v1.jpg" alt="img 3">
+            </div>
+        </div>
+        <div class="nav">
+            <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+        <div class="dots" id="dots">
+            <span class="dot" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </div>
+
+    <script>
+        var currentIndex = 0;
+        var slides = document.getElementById('slides');
+        var totalSlides = document.querySelectorAll('.slide').length;
+        var dots = document.querySelectorAll('.dot');
+
+        function updateDots() {
+            dots.forEach(function(dot, index) {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function moveSlide(n) {
+            currentIndex = (currentIndex + n + totalSlides) % totalSlides;
+            updateSlides();
+        }
+
+        function currentSlide(n) {
+            currentIndex = n;
+            updateSlides();
+        }
+
+        function updateSlides() {
+            slides.style.transform = 'translateX(' + (-currentIndex * 704) + 'px)';
+            updateDots();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSlides();
+        });
+    </script>
+</body>
+</html>
